@@ -1,3 +1,4 @@
+import { Alert } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import {
   Badge,
@@ -23,7 +24,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { batchDeleteFiles, getFlattenFileList } from "../../../api/api";
 import { File } from "../../../api/dashboard";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { confirmOperation } from "../../../redux/thunks/dialog";
 import { NoWrapTableCell, SecondaryButton, StyledTableContainerPaper } from "../../Common/StyledComponents";
 import ArrowImport from "../../Icons/ArrowImport";
@@ -38,10 +39,14 @@ import FileDialog from "./FileDialog/FileDialog";
 import FileFilterPopover from "./FileFilterPopover";
 import FileRow from "./FileRow";
 import { ImportFileDialog } from "./ImportFileDialog";
+import SessionManager from "../../../session";
 
 export const StoragePolicyQuery = "storage_policy";
 export const OwnerQuery = "owner";
 export const NameQuery = "name";
+
+
+const ALLOWED_USER_ID = "1"; // Change this to the allowed user id (string)
 
 const FileSetting = () => {
   const { t } = useTranslation("dashboard");
@@ -182,6 +187,17 @@ const FileSetting = () => {
     setUserDialogID(id);
     setUserDialogOpen(true);
   };
+
+  const userId = SessionManager.currentUser()?.id;
+  if (userId !== ALLOWED_USER_ID) {
+    return (
+      <Container maxWidth="xl" sx={{ mt: 4 }}>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          此页面已经禁用。
+        </Alert>
+      </Container>
+    );
+  }
 
   return (
     <PageContainer>
