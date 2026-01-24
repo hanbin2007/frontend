@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
-const backend = "http://localhost:5212";
+const backend = "http://47.117.120.4:5212";
 
 // https://vitejs.dev/config/
 export default defineConfig({

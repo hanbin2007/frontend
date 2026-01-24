@@ -1,34 +1,19 @@
-import { Box, BoxProps, Typography, useTheme } from "@mui/material";
-import LogoIcon from "./assets/logo.svg";
-import LogoIconDark from "./assets/logo_light.svg";
+import { Box, BoxProps, Typography } from "@mui/material";
 
 export interface PoweredByProps extends BoxProps {}
 
 const PoweredBy = ({ ...rest }: PoweredByProps) => {
-  const theme = useTheme();
   return (
     <Box {...rest}>
       <Box
-        component="a"
+        component="span"
         marginBottom={2}
-        href="https://cloudreve.org"
-        target="_blank"
         sx={{
           width: "100%",
           display: "flex",
           alignItems: "center",
-          gap: 1,
+          gap: 0.5,
           textDecoration: "none",
-          "& img": {
-            filter: "grayscale(100%)",
-            opacity: 0.3,
-          },
-          "&:hover": {
-            "& img": {
-              filter: "grayscale(0%)",
-              opacity: 1,
-            },
-          },
         }}
       >
         <Typography
@@ -40,14 +25,15 @@ const PoweredBy = ({ ...rest }: PoweredByProps) => {
         >
           Powered by
         </Typography>
-        <Box
-          component="img"
-          alt="Cloudreve"
+        <Typography
+          variant="body2"
           sx={{
-            height: 20,
+            color: (theme) => theme.palette.action.disabled,
           }}
-          src={theme.palette.mode === "dark" ? LogoIconDark : LogoIcon}
-        />
+          fontWeight={600}
+        >
+          OriGen Tech
+        </Typography>
       </Box>
     </Box>
   );

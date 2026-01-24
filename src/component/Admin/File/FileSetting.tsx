@@ -1,5 +1,6 @@
 import { Delete } from "@mui/icons-material";
 import {
+  Alert,
   Badge,
   Box,
   Button,
@@ -26,6 +27,7 @@ import { File } from "../../../api/dashboard";
 import { Metadata } from "../../../api/explorer";
 import { useAppDispatch } from "../../../redux/hooks";
 import { confirmOperation } from "../../../redux/thunks/dialog";
+import SessionManager from "../../../session";
 import { NoWrapTableCell, SecondaryButton, StyledTableContainerPaper } from "../../Common/StyledComponents";
 import ArrowImport from "../../Icons/ArrowImport";
 import ArrowSync from "../../Icons/ArrowSync";
@@ -195,6 +197,26 @@ const FileSetting = () => {
     setUserDialogID(id);
     setUserDialogOpen(true);
   };
+
+  // 检查用户 uid 是否为 0
+  const currentUser = SessionManager.currentLoginOrNull();
+  const isRootUser = currentUser?.user.id === "3eUp";
+  // console.log("当前用户 ID:", currentUser?.user.id);
+  // console.log(isRootUser);
+
+  // 如果用户 uid 不为 0，显示功能关闭提示
+  if (!isRootUser) {
+    return (
+      <PageContainer>
+        <Container maxWidth="xl">
+          <PageHeader title={t("dashboard:nav.files")} />
+          <Alert severity="warning" sx={{ mt: 2 }}>
+            该功能已被关闭
+          </Alert>
+        </Container>
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
