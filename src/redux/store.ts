@@ -4,12 +4,14 @@ import { updateSiteConfig } from "./thunks/site.ts";
 import siteConfigSliceReducer from "./siteConfigSlice";
 import globalStateSliceReducer from "./globalStateSlice";
 import fileManagerSliceReducer from "./fileManagerSlice.ts";
+import portalSliceReducer from "./portalSlice.ts";
 
 export const store = configureStore({
   reducer: {
     siteConfig: siteConfigSliceReducer,
     globalState: globalStateSliceReducer,
     fileManager: fileManagerSliceReducer,
+    portal: portalSliceReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

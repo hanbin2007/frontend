@@ -16,6 +16,7 @@ import SessionManager from "../../../session";
 import { useContext, useState } from "react";
 import { DrawerPopover } from "./AppDrawer.tsx";
 import { PageVariant, PageVariantContext } from "../NavBarFrame.tsx";
+import InboxButton from "./InboxButton.tsx";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -121,6 +122,7 @@ const TopAppBar = () => {
           {!isMobile ? (
             <>
               <DarkThemeSwitcher />
+              {isLogin && <InboxButton />}
               {isLogin && (
                 <Tooltip title={t("navbar.setting")}>
                   <IconButton size="large" onClick={() => navigate("/settings")}>

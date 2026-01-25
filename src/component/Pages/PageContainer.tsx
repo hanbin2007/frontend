@@ -11,7 +11,10 @@ const PageContainer = (props: BoxProps) => {
         flexGrow: 1,
         mb: isMobile ? 0 : 1,
         py: 4,
-        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        ...props.sx,
       }}
       square={isMobile}
       withBorder={!isMobile}

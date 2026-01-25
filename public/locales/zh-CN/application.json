@@ -142,7 +142,19 @@
     "toDarkMode": "黑暗",
     "toLightMode": "浅色",
     "myProfile": "个人主页",
-    "dashboard": "管理面板"
+    "dashboard": "管理面板",
+    "inbox": "信箱"
+  },
+  "inbox": {
+    "noMessages": "暂无消息",
+    "markAllRead": "全部标记已读",
+    "announcements": "公告",
+    "tasks": "任务",
+    "noTasks": "暂无任务通知",
+    "assignedBy": "由 {{user}} 分配",
+    "viewHistory": "查看历史",
+    "history": "通知历史",
+    "all": "全部"
   },
   "fileManager": {
     "continueInDesktop": "授权成功，请在桌面客户端中继续操作。",
@@ -956,5 +968,27 @@
     "reportReasonOptions": ["侵权", "有害内容", "垃圾信息", "其他"],
     "reportDescription": "补充说明",
     "reportAbuseSuccess": "举报已提交"
+  },
+  "portal": {
+    "taskBoard": "任务分派板",
+    "newTask": "新建任务",
+    "allTasks": "全部",
+    "createdByMe": "我创建的",
+    "assignedToMe": "分配给我的",
+    "pending": "待处理",
+    "inProgress": "进行中",
+    "completed": "已完成",
+    "noTasks": "暂无任务",
+    "createTask": "创建任务",
+    "taskTitle": "任务标题",
+    "taskDescription": "任务描述",
+    "assignee": "受托人",
+    "searchUser": "搜索用户...",
+    "noDescription": "暂无描述",
+    "updateStatus": "更新状态",
+    "deleteTask": "删除任务",
+    "comments": "留言",
+    "noComments": "暂无留言",
+    "addComment": "添加留言"
   }
 }

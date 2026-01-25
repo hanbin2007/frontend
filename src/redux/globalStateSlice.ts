@@ -271,6 +271,28 @@ export interface GlobalStateSlice {
   announcementDialogOpen?: boolean;
   announcements?: Announcement[];
   announcementCurrentIndex?: number;
+
+  // Inbox drawer
+  inboxDrawerOpen?: boolean;
+  inboxUnreadCount?: number;
+  notifications?: InboxNotification[];
+  readNotifications?: InboxNotification[];
+
+  // Announcement detail dialog
+  announcementDetailOpen?: boolean;
+  announcementDetailNotification?: InboxNotification;
+
+  // Notification history dialog
+  notificationHistoryOpen?: boolean;
+}
+
+export interface InboxNotification {
+  type: "announcement" | "task_assigned" | "portal_task_updated" | "portal_task_comment";
+  id: number;
+  title: string;
+  content?: string;
+  from_user?: string;
+  created_at: string;
 }
 
 let preferred_theme: string | undefined = undefined;
@@ -290,6 +312,15 @@ const initialState: GlobalStateSlice = {
   userInfoCache: {},
   dndState: {},
   shareInfo: {},
+  notifications: [],
+  readNotifications: (() => {
+    try {
+      const saved = localStorage.getItem("cloudreve_read_notifications");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  })(),
 };
 
 export const globalStateSlice = createSlice({
@@ -821,6 +852,77 @@ export const globalStateSlice = createSlice({
         }
       }
     },
+    setInboxDrawerOpen: (state, action: PayloadAction<boolean>) => {
+      state.inboxDrawerOpen = action.payload;
+    },
+    closeInboxDrawer: (state) => {
+      state.inboxDrawerOpen = false;
+    },
+    setInboxUnreadCount: (state, action: PayloadAction<number>) => {
+      state.inboxUnreadCount = action.payload;
+    },
+    addNotification: (state, action: PayloadAction<InboxNotification>) => {
+      if (!state.notifications) {
+        state.notifications = [];
+      }
+      // Add to the beginning of the list
+      state.notifications.unshift(action.payload);
+      // Increment unread count
+      state.inboxUnreadCount = (state.inboxUnreadCount || 0) + 1;
+    },
+    clearNotifications: (state) => {
+      // Move all notifications to read history
+      if (state.notifications && state.notifications.length > 0) {
+        const readHistory = [...(state.readNotifications || []), ...state.notifications];
+        // Keep only last 100
+        state.readNotifications = readHistory.slice(0, 100);
+        try {
+          localStorage.setItem("cloudreve_read_notifications", JSON.stringify(state.readNotifications));
+        } catch {
+          /* ignore */
+        }
+      }
+      state.notifications = [];
+      state.inboxUnreadCount = 0;
+    },
+    markNotificationAsRead: (state, action: PayloadAction<InboxNotification>) => {
+      // Remove from unread
+      if (state.notifications) {
+        state.notifications = state.notifications.filter(
+          (n) => !(n.id === action.payload.id && n.type === action.payload.type),
+        );
+      }
+      // Check if already in read history (prevent duplicate adds)
+      const alreadyInHistory = (state.readNotifications || []).some(
+        (n) => n.id === action.payload.id && n.type === action.payload.type,
+      );
+      if (!alreadyInHistory) {
+        // Add to read history only if not already present
+        const readHistory = [action.payload, ...(state.readNotifications || [])];
+        state.readNotifications = readHistory.slice(0, 100);
+        try {
+          localStorage.setItem("cloudreve_read_notifications", JSON.stringify(state.readNotifications));
+        } catch {
+          /* ignore */
+        }
+      }
+      // Update unread count
+      state.inboxUnreadCount = state.notifications?.length || 0;
+    },
+    openAnnouncementDetail: (state, action: PayloadAction<InboxNotification>) => {
+      state.announcementDetailOpen = true;
+      state.announcementDetailNotification = action.payload;
+    },
+    closeAnnouncementDetail: (state) => {
+      state.announcementDetailOpen = false;
+      state.announcementDetailNotification = undefined;
+    },
+    openNotificationHistory: (state) => {
+      state.notificationHistoryOpen = true;
+    },
+    closeNotificationHistory: (state) => {
+      state.notificationHistoryOpen = false;
+    },
   },
 });
 
@@ -933,4 +1035,14 @@ export const {
   setAnnouncementDialogOpen,
   closeAnnouncementDialog,
   nextAnnouncement,
+  setInboxDrawerOpen,
+  closeInboxDrawer,
+  setInboxUnreadCount,
+  addNotification,
+  clearNotifications,
+  markNotificationAsRead,
+  openAnnouncementDetail,
+  closeAnnouncementDetail,
+  openNotificationHistory,
+  closeNotificationHistory,
 } = globalStateSlice.actions;

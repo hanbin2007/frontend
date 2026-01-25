@@ -142,7 +142,19 @@
     "toDarkMode": "Dark",
     "toLightMode": "Light",
     "myProfile": "My profile",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "inbox": "Inbox"
+  },
+  "inbox": {
+    "noMessages": "No messages",
+    "markAllRead": "Mark all as read",
+    "announcements": "Announcements",
+    "tasks": "Tasks",
+    "noTasks": "No task notifications",
+    "assignedBy": "Assigned by {{user}}",
+    "viewHistory": "View history",
+    "history": "Notification History",
+    "all": "All"
   },
   "fileManager": {
     "continueInDesktop": "Authorization successful, please continue in the desktop client.",
@@ -956,5 +968,27 @@
     "reportReasonOptions": ["Copyright infringement", "Harmful content", "Spam", "Other"],
     "reportDescription": "Additional description",
     "reportAbuseSuccess": "Report submitted."
+  },
+  "portal": {
+    "taskBoard": "Task Board",
+    "newTask": "New Task",
+    "allTasks": "All",
+    "createdByMe": "Created by Me",
+    "assignedToMe": "Assigned to Me",
+    "pending": "Pending",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "noTasks": "No tasks",
+    "createTask": "Create Task",
+    "taskTitle": "Task Title",
+    "taskDescription": "Task Description",
+    "assignee": "Assignee",
+    "searchUser": "Search users...",
+    "noDescription": "No description",
+    "updateStatus": "Update Status",
+    "deleteTask": "Delete Task",
+    "comments": "Comments",
+    "noComments": "No comments",
+    "addComment": "Add comment"
   }
 }
