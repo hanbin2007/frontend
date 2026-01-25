@@ -1,6 +1,6 @@
 import { Box, FormControl, FormControlLabel, Stack, Switch, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isTrueVal } from "../../../../session/utils.ts";
 import { DenseFilledTextField } from "../../../Common/StyledComponents.tsx";
@@ -11,9 +11,26 @@ import GeneralImagePreview from "./GeneralImagePreview.tsx";
 import LogoPreview from "./LogoPreview.tsx";
 import SiteURLInput from "./SiteURLInput.tsx";
 
+// Announcement is stored in localStorage as it's a Pro feature not supported by the backend
+const ANNOUNCEMENT_STORAGE_KEY = "site_announcement_content";
+
+export const getStoredAnnouncement = (): string => {
+  return localStorage.getItem(ANNOUNCEMENT_STORAGE_KEY) || "";
+};
+
+export const setStoredAnnouncement = (content: string): void => {
+  localStorage.setItem(ANNOUNCEMENT_STORAGE_KEY, content);
+};
+
 const SiteInformation = () => {
   const { t } = useTranslation("dashboard");
   const { formRef, setSettings, values } = useContext(SettingContext);
+  const [announcement, setAnnouncement] = useState(getStoredAnnouncement());
+
+  // Sync localStorage when announcement changes
+  useEffect(() => {
+    setStoredAnnouncement(announcement);
+  }, [announcement]);
 
   return (
     <Box component={"form"} ref={formRef} onSubmit={(e) => e.preventDefault()}>
@@ -64,9 +81,15 @@ const SiteInformation = () => {
                 <NoMarginHelperText>{t("settings.customFooterHTMLDes")}</NoMarginHelperText>
               </FormControl>
             </SettingForm>
-            <SettingForm title={t("settings.announcement")} lgWidth={5} pro>
+            <SettingForm title={t("settings.announcement")} lgWidth={5}>
               <FormControl fullWidth>
-                <DenseFilledTextField inputProps={{ readOnly: true }} fullWidth multiline rows={4} />
+                <DenseFilledTextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  onChange={(e) => setAnnouncement(e.target.value)}
+                  value={announcement}
+                />
                 <NoMarginHelperText>{t("settings.announcementDes")}</NoMarginHelperText>
               </FormControl>
             </SettingForm>

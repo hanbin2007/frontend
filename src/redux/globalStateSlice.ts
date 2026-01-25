@@ -265,6 +265,9 @@ export interface GlobalStateSlice {
   // OAuth consent flow
   oauthApp?: AppRegistration;
   oauthAppLoading?: boolean;
+
+  // Announcement dialog
+  announcementDialogOpen?: boolean;
 }
 
 let preferred_theme: string | undefined = undefined;
@@ -792,6 +795,12 @@ export const globalStateSlice = createSlice({
     closeDrawIOViewer: (state) => {
       state.drawIOViewer && (state.drawIOViewer.open = false);
     },
+    setAnnouncementDialogOpen: (state, action: PayloadAction<boolean>) => {
+      state.announcementDialogOpen = action.payload;
+    },
+    closeAnnouncementDialog: (state) => {
+      state.announcementDialogOpen = false;
+    },
   },
 });
 
@@ -901,4 +910,6 @@ export const {
   clearOAuthApp,
   setDesktopMountSetupDialog,
   closeDesktopMountSetupDialog,
+  setAnnouncementDialogOpen,
+  closeAnnouncementDialog,
 } = globalStateSlice.actions;

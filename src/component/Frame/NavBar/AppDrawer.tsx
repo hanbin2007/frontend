@@ -5,6 +5,7 @@ import SessionManager from "../../../session";
 import TreeNavigation from "../../FileManager/TreeView/TreeNavigation.tsx";
 import { PageVariant, PageVariantContext } from "../NavBarFrame.tsx";
 import DrawerHeader from "./DrawerHeader.tsx";
+import OrigenPortalButton from "./OrigenPortalButton.tsx";
 import PageNavigation, { AdminPageNavigation } from "./PageNavigation.tsx";
 import StorageSummary from "./StorageSummary.tsx";
 
@@ -19,6 +20,11 @@ const DrawerContent = () => {
   return (
     <>
       <DrawerHeader />
+      {!isDashboard && (
+        <Box sx={{ px: 2, pb: 1 }}>
+          <OrigenPortalButton />
+        </Box>
+      )}
       <Stack
         direction={"column"}
         spacing={2}

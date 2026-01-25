@@ -200,6 +200,13 @@ export const router = createBrowserRouter([
             },
           },
           {
+            path: "/origen-portal",
+            async lazy() {
+              let OrigenPortal = await import("../component/Pages/OrigenPortal/OrigenPortal.tsx");
+              return { Component: OrigenPortal.default };
+            },
+          },
+          {
             path: "/tasks",
             async lazy() {
               let { TaskList } = await import("../component/Pages/Pages");
