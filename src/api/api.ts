@@ -39,6 +39,10 @@ import {
   UpsertStoragePolicyService,
   UpsertUserService,
   User as UserEnt,
+  Announcement,
+  ListAnnouncementResponse,
+  UpsertAnnouncementService,
+  MyAnnouncementsResponse,
 } from "./dashboard.ts";
 import {
   ArchiveListFilesResponse,
@@ -256,7 +260,7 @@ export function sendSignout(req: RefreshTokenRequest): ThunkResponse<string> {
   };
 }
 
-export function getFileList(req: ListFileService, skipSnackbar = true): ThunkResponse<ListResponse> {
+export function getFileList(req: ListFileService, _skipSnackbar = true): ThunkResponse<ListResponse> {
   return async (dispatch, _getState) => {
     return await dispatch(
       send(
@@ -2040,7 +2044,93 @@ export function getOauthAppRegistration(app_id: string): ThunkResponse<AppRegist
 export function sendConsentOauthApp(args: GrantService): ThunkResponse<GrantResponse> {
   return async (dispatch, _getState) => {
     return await dispatch(
-      send(`/session/oauth/consent`, { method: "POST", data: args }, { bypassSnackbar: (e) => true, ...defaultOpts }),
+      send(`/session/oauth/consent`, { method: "POST", data: args }, { bypassSnackbar: (_e) => true, ...defaultOpts }),
+    );
+  };
+}
+
+// Announcement APIs
+export function getAdminAnnouncements(args: AdminListService): ThunkResponse<ListAnnouncementResponse> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/admin/announcement`,
+        { method: "POST", data: args },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function getAdminAnnouncement(id: number): ThunkResponse<Announcement> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/admin/announcement/${id}`,
+        { method: "GET" },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function sendCreateAnnouncement(args: UpsertAnnouncementService): ThunkResponse<Announcement> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/admin/announcement`,
+        { method: "PUT", data: args },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function sendUpdateAnnouncement(id: number, args: UpsertAnnouncementService): ThunkResponse<Announcement> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/admin/announcement/${id}`,
+        { method: "PUT", data: args },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function sendDeleteAnnouncement(id: number): ThunkResponse<void> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/admin/announcement/${id}`,
+        { method: "DELETE" },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function getMyAnnouncements(): ThunkResponse<MyAnnouncementsResponse> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        `/user/announcement`,
+        { method: "GET" },
+        {
+          ...defaultOpts,
+          bypassSnackbar: (_e) => true,
+        },
+      ),
     );
   };
 }

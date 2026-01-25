@@ -1,3 +1,4 @@
+import AnnouncementList from "./Announcement/AnnouncementList";
 import EntitySetting from "./Entity/EntitySetting";
 import FileSetting from "./File/FileSetting";
 import FileSystem from "./FileSystem/Filesystem";
@@ -15,6 +16,7 @@ import TaskList from "./Task/TaskList";
 import UserSetting from "./User/UserSetting";
 
 export {
+  AnnouncementList,
   EditGroup,
   EditNode,
   EditStoragePolicy,

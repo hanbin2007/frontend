@@ -12,6 +12,7 @@ import { Response } from "../api/request.ts";
 import { AppRegistration, User } from "../api/user.ts";
 import { SelectType } from "../component/Uploader/core";
 import SessionManager, { UserSettings } from "../session";
+import { Announcement } from "../api/dashboard.ts";
 
 export interface DndState {
   dragging?: boolean;
@@ -268,6 +269,8 @@ export interface GlobalStateSlice {
 
   // Announcement dialog
   announcementDialogOpen?: boolean;
+  announcements?: Announcement[];
+  announcementCurrentIndex?: number;
 }
 
 let preferred_theme: string | undefined = undefined;
@@ -795,11 +798,28 @@ export const globalStateSlice = createSlice({
     closeDrawIOViewer: (state) => {
       state.drawIOViewer && (state.drawIOViewer.open = false);
     },
-    setAnnouncementDialogOpen: (state, action: PayloadAction<boolean>) => {
-      state.announcementDialogOpen = action.payload;
+    setAnnouncementDialogOpen: (state, action: PayloadAction<{ open: boolean; announcements?: Announcement[] }>) => {
+      state.announcementDialogOpen = action.payload.open;
+      if (action.payload.announcements) {
+        state.announcements = action.payload.announcements;
+        state.announcementCurrentIndex = 0;
+      }
     },
     closeAnnouncementDialog: (state) => {
       state.announcementDialogOpen = false;
+      state.announcements = undefined;
+      state.announcementCurrentIndex = undefined;
+    },
+    nextAnnouncement: (state) => {
+      if (state.announcements && state.announcementCurrentIndex !== undefined) {
+        if (state.announcementCurrentIndex < state.announcements.length - 1) {
+          state.announcementCurrentIndex += 1;
+        } else {
+          state.announcementDialogOpen = false;
+          state.announcements = undefined;
+          state.announcementCurrentIndex = undefined;
+        }
+      }
     },
   },
 });
@@ -912,4 +932,5 @@ export const {
   closeDesktopMountSetupDialog,
   setAnnouncementDialogOpen,
   closeAnnouncementDialog,
+  nextAnnouncement,
 } = globalStateSlice.actions;

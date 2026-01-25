@@ -714,7 +714,7 @@ const BROKEN_IMG_URI =
 `);
 
 export function markdownImagePreviewHandler(imageSource: string, mdFileUri: string): AppThunk<Promise<string>> {
-  return async (dispatch, getState) => {
+  return async (dispatch, _getState) => {
     // For URl, return the image source
     if (imageSource.startsWith("http://") || imageSource.startsWith("https://")) {
       return imageSource;
@@ -756,7 +756,7 @@ export function markdownImageAutocompleteSuggestions(): AppThunk<string[] | null
 }
 
 export function uploadMarkdownImage(file: File): AppThunk<Promise<string>> {
-  return async (dispatch, getState) => {
+  return async (dispatch, _getState) => {
     const task = await dispatch(uploadRawFile(file));
     return task.name;
   };

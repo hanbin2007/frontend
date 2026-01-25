@@ -363,9 +363,9 @@ export interface BatchIDService {
 
 /*
 FilePermissions struct {
-		Groups map[int]*boolset.BooleanSet `json:"groups,omitempty"`
-		Users  map[int]*boolset.BooleanSet `json:"users,omitempty"`
-	}
+    Groups map[int]*boolset.BooleanSet `json:"groups,omitempty"`
+    Users  map[int]*boolset.BooleanSet `json:"users,omitempty"`
+  }
 
 */
 
@@ -560,4 +560,35 @@ export interface CleanupTaskService {
   not_after: string;
   types?: TaskType[];
   status?: TaskStatus[];
+}
+
+// Announcement types
+export interface Announcement extends CommonMixin {
+  title: string;
+  content: string;
+  target_groups?: number[];
+  target_users?: number[];
+  is_global: boolean;
+  is_active: boolean;
+  expires_at?: string;
+}
+
+export interface ListAnnouncementResponse {
+  announcements: Announcement[];
+  pagination: PaginationResults;
+}
+
+export interface UpsertAnnouncementService {
+  id?: number;
+  title: string;
+  content: string;
+  target_groups?: number[];
+  target_users?: number[];
+  is_global: boolean;
+  is_active: boolean;
+  expires_at?: string;
+}
+
+export interface MyAnnouncementsResponse {
+  announcements: Announcement[];
 }

@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { getUserInfo, sendSignout } from "../../api/api.ts";
 import { LoginResponse, User } from "../../api/user.ts";
-import { shouldShowAnnouncement } from "../../component/Dialogs/AnnouncementDialog.tsx";
+import { fetchAndShowAnnouncements } from "../../component/Dialogs/AnnouncementDialog.tsx";
 import { DefaultCloseAction } from "../../component/Common/Snackbar/snackbar.tsx";
 import { router } from "../../router";
 import SessionManager, { UserSettings } from "../../session";
@@ -11,7 +11,6 @@ import { clearSessionCache } from "../fileManagerSlice.ts";
 import {
   closeDesktopMountSetupDialog,
   closeMusicPlayer,
-  setAnnouncementDialogOpen,
   setDarkMode,
   setDrawerWidth,
   setPolicyOptionCache,
@@ -28,9 +27,7 @@ export function refreshUserSession(session: LoginResponse, redirect: string | nu
     await dispatch(updateSiteConfig());
 
     // Check and show announcement for all logged-in users
-    if (shouldShowAnnouncement()) {
-      dispatch(setAnnouncementDialogOpen(true));
-    }
+    dispatch(fetchAndShowAnnouncements());
 
     if (redirect) {
       router.navigate(redirect);

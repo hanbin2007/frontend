@@ -242,7 +242,7 @@ function MonacoEditor({
       }
     });
 
-    _subscriptionBlur.current = editor.current.onDidBlurEditorText((event) => {
+    _subscriptionBlur.current = editor.current.onDidBlurEditorText((_event) => {
       onBlur?.(editor.current.getValue());
     });
 

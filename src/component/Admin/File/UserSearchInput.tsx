@@ -71,27 +71,31 @@ const UserSearchInput = (props: UserSearchInputProps) => {
   return (
     <DenseAutocomplete
       value={value}
-      filterOptions={filterOptions}
+      filterOptions={filterOptions as (options: unknown[], state: { inputValue: string }) => unknown[]}
       options={options}
       loading={loading}
       blurOnSelect
-      onChange={(_event: any, newValue: User | null) => {
-        setValue(newValue);
+      onChange={(_event, newValue) => {
+        setValue(newValue as User | null);
         if (newValue) {
-          props.onUserSelected(newValue);
+          props.onUserSelected(newValue as User);
         }
       }}
       onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue);
       }}
-      getOptionLabel={(option) => (typeof option === "string" ? option : `${option.nickname} <${option.email}>`)}
+      getOptionLabel={(option) => {
+        const user = option as User;
+        return typeof option === "string" ? option : `${user.nickname} <${user.email}>`;
+      }}
       noOptionsText={t("application:modals.noResults")}
-      renderOption={(props, option) => {
+      renderOption={(props, opt) => {
+        const option = opt as User;
         return (
           <li {...props}>
             <Box sx={{ display: "flex", width: "100%", alignItems: "center" }}>
               <Box>
-                <UserAvatar user={option} />
+                <UserAvatar user={option as User} />
               </Box>
               <NoWrapBox
                 sx={{

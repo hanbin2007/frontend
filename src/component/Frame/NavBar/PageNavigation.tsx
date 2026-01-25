@@ -201,6 +201,11 @@ AdminNavigationItems = [
     path: "/admin/share",
   },
   {
+    label: "dashboard:nav.announcements",
+    icon: [SendLoggingFilled, SendLogging],
+    path: "/admin/announcement",
+  },
+  {
     label: "dashboard:nav.tasks",
     icon: [CubeSyncFilled, CubeSync],
     path: "/admin/task",

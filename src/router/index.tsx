@@ -190,6 +190,13 @@ export const router = createBrowserRouter([
                   return { Component: FileSystem };
                 },
               },
+              {
+                path: "announcement",
+                async lazy() {
+                  let { AnnouncementList } = await import("../component/Admin/AdminBundle.tsx");
+                  return { Component: AnnouncementList };
+                },
+              },
             ],
           },
           {
